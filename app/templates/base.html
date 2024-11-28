@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Mi Aplicación{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/base.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/productos.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/agregar_productos.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/editar_producto.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/index.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> <!-- Incluir SweetAlert2 -->
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('principal.index') }}">Inicio</a></li>
+                <li>
+                    <a href="#">Productos</a>
+                    <ul class="submenu">
+                        <li><a href="{{ url_for('productos.vista_productos') }}">Lista de Productos</a></li>
+                        <li><a href="{{ url_for('agregar.agregar_producto') }}">Agregar Producto</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#">Categorias</a>
+                    <ul class="submenu">
+                        <li><a href="/categorias">Lista de Categorías</a></li>
+                    </ul>
+                </li>
+                <li class="logout"><a href="#" onclick="confirmLogout(event)">Cerrar Sesión</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        {% block content %}
+        <!-- Contenido específico de la página -->
+        {% endblock %}
+    </main>
+    <footer>
+        
+    </footer>
+
+    <script>
+        function confirmLogout(event) {
+            event.preventDefault(); // Prevenir la acción predeterminada del enlace
+            Swal.fire({
+                title: '¿Estás seguro?',
+                text: "¿Quieres cerrar sesión?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sí, cerrar sesión',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = "{{ url_for('logout') }}"; // Redirigir a la ruta de logout
+                }
+            });
+        }
+    </script>
+</body>
+</html>

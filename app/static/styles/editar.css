@@ -1,0 +1,205 @@
+/* Reset de estilo para asegurar consistencia */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background-image: url('../img/fondo.jpg'); /* Fondo de la imagen */
+    background-size: cover;
+    height: 100vh;
+    color: #d3cccc;
+}
+
+/* Contenedor principal */
+.container {
+    padding: 30px;
+    width: 100%; /* Ocupa todo el ancho disponible */
+    max-width: 1200px; /* Limita el ancho máximo para no hacer todo demasiado grande */
+    margin-top: 50px;
+    margin-left: 150px;
+    text-align: center;
+}
+
+/* Título */
+h1 {
+    margin-bottom: 20px;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+/* Contenedor de las tarjetas */
+.card-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: space-around; /* Acomoda las tarjetas en filas */
+    margin-top: 20px;
+}
+
+/* Estilo de cada tarjeta */
+.category-card {
+    width: 220px; /* Hacer la tarjeta más pequeña */
+    height: 280px;
+    perspective: 1000px; /* Para permitir la rotación 3D */
+    cursor: pointer;
+    position: relative;
+    border-radius: 10px;
+    background-color: #0000005e; /* Fondo blanco para las tarjetas */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.331);
+    overflow: hidden;
+}
+
+/* Lado frontal de la tarjeta */
+.category-card .card-front {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    backface-visibility: hidden; /* Oculta la parte posterior cuando está volteada */
+    transition: transform 0.3s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 10px;
+}
+
+/* Imagen de la categoría */
+.category-image {
+    width: 80%; /* Imagen más pequeña para dejar margen */
+    height: auto;
+    object-fit: cover;
+    margin-bottom: 10px; /* Margen inferior para separar la imagen del texto */
+    border-radius: 10px;
+}
+
+/* Nombre de la categoría */
+.category-name {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #faf9f9d4;
+    text-align: center;
+}
+
+/* Lado posterior de la tarjeta */
+.category-card .card-back {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    backface-visibility: hidden;
+    transform: rotateY(180deg); /* Gira la parte posterior */
+    background-color: #fcf5f56d;
+    color: rgba(255, 255, 255, 0.781);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    text-align: center;
+}
+
+.category-card.flipped .card-front {
+    transform: rotateY(180deg);
+}
+
+.category-card.flipped .card-back {
+    transform: rotateY(0deg);
+}
+
+/* Botones en la parte posterior de la tarjeta */
+.card-back button {
+    margin: 10px;
+    background-color: #ffffffac;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.card-back button:hover {
+    background-color: #00000086;
+}
+
+/* Modal (ventanas emergentes) */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Estilo de la ventana emergente */
+.modal-content {
+    background: #ffffff; /* Fondo blanco */
+    padding: 20px;
+    border-radius: 10px;
+    width: 300px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    text-align: center;
+}
+
+/* Estilos para los campos del modal */
+#modal-input,
+#modal-description {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: #f1f1f1;
+    font-size: 1rem;
+    color: #333;
+    transition: background-color 0.3s ease, border 0.3s ease;
+}
+
+#modal-input:focus,
+#modal-description:focus {
+    background-color: #fff;
+    border-color: #888;
+    outline: none;
+}
+
+#modal-description {
+    height: 120px; /* Ajuste de altura */
+    resize: none; /* Para evitar que el cuadro se haga más grande con el arrastre */
+}
+
+/* Botones del modal */
+#modal-confirm,
+#modal-cancel {
+    background-color: #000000;
+    color: #fff;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    border-radius: 5px;
+    padding: 10px;
+    width: 48%;
+}
+
+#modal-confirm:hover,
+#modal-cancel:hover {
+    background-color: #dfece2;
+    color: #000000;
+}
+
+#add-category {
+    background-color: #dfe1e5;
+    color: #000000;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 20px;
+    font-size: 1rem;
+}
+
+#add-category:hover {
+    background-color: #000000;
+    color: #fff;
+}

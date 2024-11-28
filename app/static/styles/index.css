@@ -1,0 +1,17 @@
+h2{
+    text-align: center;
+}
+
+.card {
+    border: 1px solid #ccc;  /* Borde de la tarjeta */
+    border-radius: 8px;  /* Bordes redondeados */
+    padding: 16px;  /* Espaciado interno */
+    margin: 10px;  /* Margen entre tarjetas */
+    cursor: pointer;  /* Cambia el cursor al pasar sobre la tarjeta */
+    transition: transform 0.2s;  /* Transición suave al hacer hover */
+    text-align: center;
+}
+
+.card:hover {
+    transform: scale(1.05);  /* Aumenta el tamaño al pasar el mouse */
+}

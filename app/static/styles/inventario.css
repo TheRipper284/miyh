@@ -1,0 +1,139 @@
+/* Estilos generales */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background-image: url('../img/fondo.jpg');
+    background-size: cover;
+    background-position: center;
+
+    flex-direction: column; /* Cambiar a columna para apilar header y section */
+    justify-content: center; /* Centrar horizontalmente */
+    align-items: center; /* Centrar verticalmente */
+    height: 100vh; /* Altura completa de la ventana */
+    color: #333;
+    
+}
+
+.container {
+    margin-top: 70px;
+    margin-left: 30%;
+    background: rgba(0, 0, 0, 0.6); /* Fondo negro transparente */
+    padding: 30px; /* Aumentar el padding para hacerlo más grande */
+    border-radius: 10px;
+    width: 90%; /* Ancho del contenedor */
+    max-width: 700px; /* Ancho máximo */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    text-align: center;
+    color: #fff; /* Color del texto */
+}
+
+/* Estilo para los botones */
+.btn {
+    background-color: #f3f4f6; /* Color de fondo */
+    color: #374151; /* Color del texto */
+    border: none; /* Sin borde */
+    border-radius: 8px; /* Bordes redondeados */
+    padding: 10px 20px; /* Espaciado interno */
+    font-size: 16px; /* Tamaño de la fuente */
+    font-weight: bold; /* Negrita */
+    cursor: pointer; /* Cambia el cursor al pasar el mouse */
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Transiciones suaves */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+}
+
+.btn:hover {
+    background-color: #e5e7eb; /* Color de fondo al pasar el mouse */
+}
+
+.btn:active {
+    transform: scale(0.95); /* Efecto de escala al hacer clic */
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2); /* Sombra más sutil al hacer clic */
+}
+
+/* Estilo para el encabezado */
+h1 {
+    margin-bottom: 20px;
+}
+
+/* Estilos para la tabla */
+table {
+    width: 100%;
+    border-collapse: separate; /* Cambiar a 'separate' para permitir el borde redondeado */
+    border-spacing: 10px; /* Espacio entre las celdas */
+    margin-top: 20px;
+}
+
+table, th, td {
+    border: 1px solid rgba(0, 0, 0, 0.6); /* Borde con opacidad */
+}
+
+th, td {
+    padding: 12px; /* Aumentar el padding para hacer las celdas más grandes */
+    text-align: left;
+    color: #ffffff;
+    background: rgba(0, 0, 0, 0.1); /* Fondo con opacidad */
+    border-radius: 15px; /* Bordes redondeados */
+}
+
+/* Estilos para el modal */
+.modal {
+    display: none; /* Ocultar el modal por defecto */
+    position: fixed; /* Mantener el modal en la misma posición */
+    z-index: 1; /* Asegurarse de que esté por encima de otros elementos */
+    left: 0;
+    top: 0;
+    width: 100%; /* Ancho completo */
+    height: 100%; /* Altura completa */
+    overflow: auto; /* Habilitar el desplazamiento si es necesario */
+    background-color: rgba(0, 0, 0, 0.5); /* Fondo oscuro con opacidad */
+}
+
+.modal-content {
+    background: rgba(0, 0, 0, 0.8); /* Fondo negro transparente para el modal */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    color: #fff; /* Color del texto en el modal */
+    width: 400px; /* Ancho del modal (ajusta según tus necesidades) */
+    max-width: 80%; /* Ancho máximo para pantallas pequeñas */
+    height: auto; /* Altura automática para ajustarse al contenido */
+    overflow: auto; /* Permite el desplazamiento si el contenido es demasiado grande */
+    position: absolute; /* Posiciona el contenido en relación al modal */
+    left: 50%; /* Centrar horizontalmente */
+    top: 50%; /* Centrar verticalmente */
+    transform: translate(-50%, -50%); /* Ajustar para centrar el modal */
+}
+
+.modal-content h2 {
+    margin-bottom: 20px;
+}
+
+.modal-content label {
+    color: #fff; /* Color de las etiquetas en el modal */
+}
+
+.modal-content input, .modal-content select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.modal-content button {
+    background-color: #35424a; /* Color de fondo del botón en el modal */
+    color: #fff; /* Color del texto del botón */
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.modal-content button:hover {
+    background-color: #454d55; /* Color de fondo del botón al pasar el mouse */
+}

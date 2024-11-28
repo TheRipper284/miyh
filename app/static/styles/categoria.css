@@ -1,0 +1,97 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background-image: url('../img/fondo.jpg');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    flex-direction: column; /* Cambiar a columna para apilar header y section */
+    justify-content: center; /* Centrar horizontalmente */
+    align-items: center; /* Centrar verticalmente */
+    height: 100vh; /* Altura completa de la ventana */
+    color: #333;
+}
+
+.container {
+    background: rgba(0, 0, 0, 0.6); /* Fondo negro transparente */
+    padding: 20px;
+    border-radius: 10px;
+    width: 80%; /* Ancho del contenedor */
+    max-width: 600px; /* Ancho máximo */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    text-align: center;
+    color: #fff; /* Color del texto */
+}
+
+/* Estilo para los botones */
+.btn {
+    background-color: #f3f4f6; /* Color de fondo */
+    color: #374151; /* Color del texto */
+    border: none; /* Sin borde */
+    border-radius: 8px; /* Bordes redondeados */
+    padding: 10px 20px; /* Espaciado interno */
+    font-size: 16px; /* Tamaño de la fuente */
+    font-weight: bold; /* Negrita */
+    cursor: pointer; /* Cambia el cursor al pasar el mouse */
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Transiciones suaves */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+}
+
+.btn:hover {
+    background-color: #e5e7eb; /* Color de fondo al pasar el mouse */
+}
+
+.btn:active {
+    transform: scale(0.95); /* Efecto de escala al hacer clic */
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2); /* Sombra más sutil al hacer clic */
+}
+
+h1 {
+    margin-bottom: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: separate; /* Cambiar a 'separate' para permitir el borde redondeado */
+    border-spacing: 10px; /* Espacio entre las celdas */
+    margin-top: 20px;
+}
+
+table, th, td {
+    border: 1px solid rgba(0, 0, 0, 0.6); /* Borde con opacidad */
+}
+
+th, td {
+    padding: 12px; /* Aumentar el padding para hacer las celdas más grandes */
+    text-align: left;
+    color: #ffffff;
+    background: rgba(0, 0, 0, 0.1); /* Fondo con opacidad */
+    border-radius: 15px; /* Bordes redondeados */
+}
+
+input[type="text"] {
+    width: 80%; /* Ancho específico del input (ajusta según necesites) */
+    max-width: 300px; /* Ancho máximo para que no se expanda demasiado */
+    padding: 10px; /* Espaciado interno */
+    border: 1px solid rgba(0, 0, 0, 0.6); /* Borde con opacidad */
+    border-radius: 8px; /* Bordes redondeados */
+    background: rgba(255, 255, 255, 0.8); /* Fondo blanco con opacidad */
+    color: #333; /* Color del texto */
+    font-size: 16px; /* Tamaño de la fuente */
+    transition: border-color 0.3s ease; /* Transición suave para el borde */
+    margin: 0 auto; /* Centrar el input horizontalmente */
+    display: block; /* Asegura que el margin auto funcione */
+}
+
+/* Estilo al enfocar el input */
+input[type="text"]:focus {
+    border-color: #374151; /* Cambiar el color del borde al enfocar */
+    outline: none; /* Quitar el contorno predeterminado */
+    background: rgba(255, 255, 255, 1); /* Fondo blanco sólido al enfocar */
+}

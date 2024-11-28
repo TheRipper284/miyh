@@ -1,0 +1,63 @@
+
+.agregar-productos-container {
+    margin: 20px auto; 
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: rgba(245, 234, 234, 0.219); 
+    max-width: 400px; 
+}
+
+
+.form-table {
+    width: 100%; 
+    border-collapse: collapse;
+    margin: 0 auto; 
+    background-color: rgba(0, 0, 0, 0.1);
+    color: white;
+    border-radius: 5px;
+}
+
+
+.form-table td {
+    padding: 10px; 
+}
+
+
+input[type="text"],
+input[type="number"],
+textarea,
+select {
+    width: 100%;
+    padding: 8px; 
+    border-radius: 4px;
+    box-sizing: border-box;
+    color: black !important;
+    background-color: rgba(255, 254, 254, 0.253);
+}
+
+
+button {
+    background-color: #4ea728c8; 
+    color: white; 
+    border: none; 
+    padding: 10px 15px; 
+    border-radius: 4px; 
+    cursor: pointer; 
+    transition: background-color 0.3s; 
+    margin: 8px;
+}
+
+button:hover {
+    background-color: #883221c1; 
+}
+
+
+a {
+    color: #007bff; 
+    text-decoration: none; 
+}
+
+a:hover {
+    text-decoration: underline; 
+}

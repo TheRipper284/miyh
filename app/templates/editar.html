@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Categorías</title>
+    <link rel="stylesheet" href="../static/styles/editar.css">
+    <link rel="stylesheet" href="../static/styles/base.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+
+    <header>
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('principal.index') }}">Inicio</a></li>
+                <li>
+                    <a href="#">Productos</a>
+                    <ul class="submenu">
+                        <li><a href="{{ url_for('productos.vista_productos') }}">Lista de Productos</a></li>
+                        <li><a href="{{ url_for('agregar.agregar_producto') }}">Agregar Producto</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#">Categorias</a>
+                    <ul class="submenu">
+                        <li><a href="/categorias">Lista de Categorías</a></li>
+                    </ul>
+                </li>
+                <li class="logout"><a href="#" onclick="confirmLogout(event)">Cerrar Sesión</a></li>
+            </ul>
+        </nav>
+    </header>
+
+
+    <div class="container">
+        <h1>Categorías de Productos</h1>
+        <div class="category-list">
+            <div class="card-container">
+                {% for category in categories %}
+                <div class="category-card" data-id="{{ category[0] }}" data-description="{{ category[2] }}">
+                    <div class="card-front">
+                        <!-- Mostrar la imagen de la categoría -->
+                        <img src="/static/uploads/{{ category[4] }}" alt="Imagen de categoría" class="category-image">
+                        <span class="category-name">{{ category[1] }}</span>
+                    </div>
+                    <div class="card-back">
+                        <button class="edit-btn">Editar</button>
+                        <button class="delete-btn">Eliminar</button>
+                        <button class="description-btn">Descripción</button>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        <button id="add-category">Agregar Categoría</button>
+    </div>
+
+    <!-- Modal para agregar o editar -->
+    <div id="modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <h2 id="modal-title"></h2>
+            <input type="text" id="modal-input" placeholder="Nombre de la categoría">
+            <textarea id="modal-description" placeholder="Descripción de la categoría"></textarea>
+            <input type="file" id="modal-image" accept="image/*">
+            <div class="modal-buttons">
+                <button id="modal-confirm">Aceptar</button>
+                <button id="modal-cancel">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const categoryList = document.querySelector('.card-container');
+        const addCategoryButton = document.getElementById('add-category');
+        const modal = document.getElementById('modal');
+        const modalInput = document.getElementById('modal-input');
+        const modalDescription = document.getElementById('modal-description');
+        const modalImage = document.getElementById('modal-image');
+        const modalConfirm = document.getElementById('modal-confirm');
+        const modalCancel = document.getElementById('modal-cancel');
+        const modalTitle = document.getElementById('modal-title');
+
+        let currentEditItem = null;
+        let isEditing = false;
+
+        // Abrir modal para agregar categoría
+        addCategoryButton.addEventListener('click', () => {
+            isEditing = false;
+            showModal("Agregar Categoría", "", "", "");
+        });
+
+        // Confirmar acción en el modal
+        modalConfirm.addEventListener('click', () => {
+            const categoryName = modalInput.value.trim();
+            const categoryDescription = modalDescription.value.trim();
+            const categoryImage = modalImage.files[0];
+
+            if (categoryName !== "") {
+                const formData = new FormData();
+                formData.append('name', categoryName);
+                formData.append('description', categoryDescription);
+                formData.append('image', categoryImage);
+
+                if (isEditing) {
+                    const categoryId = currentEditItem.dataset.id;
+                    fetch(`/edit/${categoryId}`, {
+                        method: 'PUT',
+                        body: formData
+                    }).then(res => res.json()).then(data => {
+                        if (data.success) {
+                            currentEditItem.querySelector('.category-image').src = `/static/uploads/${data.category.imagen}?t=${new Date().getTime()}`;
+                            currentEditItem.dataset.description = categoryDescription; // Actualizar la descripción
+                            if (categoryImage) {
+                                currentEditItem.querySelector('.category-image').src = `/static/uploads/${data.category.imagen}`;
+
+                                console.log(currentEditItem.querySelector('.category-image').src);
+                            }
+                            closeModal();
+                            Swal.fire("Éxito", "Categoría guardada exitosamente.", "success");
+                        }
+                    });
+                } else {
+                    fetch('/add', {
+                        method: 'POST',
+                        body: formData
+                    }).then(res => res.json()).then(data => {
+                        if (data.success) {
+                            const card = document.createElement('div');
+                            card.className = 'category-card';
+                            card.dataset.id = data.category.id;
+                            card.dataset.description = data.category.description;
+                            card.innerHTML = `
+                                <div class="card-front">
+                                    <img src="/static/uploads/${data.category.imagen}" alt="Imagen de categoría" class="category-image">
+                                    <span class="category-name">${data.category.name}</span>
+                                </div>
+                                <div class="card-back">
+                                    <button class="edit-btn">Editar</button>
+                                    <button class="delete-btn">Eliminar</button>
+                                    <button class="description-btn">Descripción</button>
+                                </div>
+                            `;
+                            categoryList.appendChild(card);
+                            addEventListeners(card);
+                            closeModal();
+                            Swal.fire("Éxito", "Categoría agregada exitosamente.", "success");
+                        }
+                    });
+                }
+            }
+        });
+
+        // Cancelar acción en el modal
+        modalCancel.addEventListener('click', closeModal);
+
+        // Mostrar modal
+        function showModal(title, value, description, image) {
+            modalTitle.textContent = title;
+            modalInput.value = value;
+            modalDescription.value = description;
+            modalImage.value = ""; // Resetear la imagen
+            modal.style.display = "flex";
+            modalInput.focus();
+        }
+
+        // Cerrar modal
+        function closeModal() {
+            modal.style.display = "none";
+            currentEditItem = null;
+        }
+
+        // Agregar eventos para categorías
+        function addEventListeners(card) {
+            const editButton = card.querySelector('.edit-btn');
+            const deleteButton = card.querySelector('.delete-btn');
+            const descriptionButton = card.querySelector('.description-btn');
+
+            editButton.addEventListener('click', () => {
+                currentEditItem = card;
+                const currentName = card.querySelector('.category-name').textContent;
+                const currentDescription = card.dataset.description || "";
+                const currentImage = card.querySelector('.category-image').src.split('/').pop(); // Obtener la imagen
+                isEditing = true;
+                showModal("Editar Categoría", currentName, currentDescription, currentImage);
+            });
+
+            // Eliminar Categoría
+            deleteButton.addEventListener('click', () => {
+                const categoryId = card.dataset.id;
+
+                Swal.fire({
+                    title: "¿Estás seguro?",
+                    text: "¡No podrás revertir esto!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonText: "Sí, eliminarla!",
+                    cancelButtonText: "No, cancelar!",
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Hacer la solicitud DELETE al backend
+                        fetch(`/delete/${categoryId}`, {
+                            method: 'DELETE'
+                        })
+                        .then(res => res.json())
+                        .then(data => {
+                            if (data.success) {
+                                // Eliminar la card del DOM
+                                card.remove();
+                                Swal.fire("¡Eliminada!", "La categoría ha sido eliminada.", "success");
+                            } else {
+                                Swal.fire("Error", "Hubo un problema al eliminar la categoría.", "error");
+                            }
+                        });
+                    } else {
+                        Swal.fire("Cancelado", "La categoría no fue eliminada.", "error");
+                    }
+                });
+            });
+
+            // Mostrar descripción de la categoría
+            descriptionButton.addEventListener('click', () => {
+                const description = card.dataset.description || "No hay descripción disponible";
+                Swal.fire("Descripción", description, "info");
+            });
+
+            // Voltear la tarjeta
+            card.addEventListener('click', () => {
+                card.classList.toggle('flipped');
+            });
+        }
+
+        // Inicializar eventos para categorías existentes
+        document.querySelectorAll('.category-card').forEach(addEventListeners);
+    </script>
+</body>
+</html>

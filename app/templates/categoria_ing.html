@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agregar Categoría</title>
+    <link rel="stylesheet" href="static/styles/inventario.css"> <!-- Asegúrate de que el nombre del archivo CSS sea correcto -->
+    <link rel="stylesheet" href="static/styles/base.css"> <!-- Asegúrate de que el nombre del archivo CSS sea correcto -->
+</head>
+<body>
+
+    <header>
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('principal.index') }}">Inicio</a></li>
+                <li>
+                    <a href="#">Productos</a>
+                    <ul class="submenu">
+                        <li><a href="{{ url_for('productos.vista_productos') }}">Lista de Productos</a></li>
+                        <li><a href="{{ url_for('agregar.agregar_producto') }}">Agregar Producto</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#">Categorias</a>
+                    <ul class="submenu">
+                        <li><a href="/categorias">Lista de Categorías</a></li>
+                    </ul>
+                </li>
+                <li class="logout"><a href="#" onclick="confirmLogout(event)">Cerrar Sesión</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="container"> <!-- Contenedor único para todo el contenido -->
+        <h1>Agregar Nueva Categoría</h1>
+        <button class="btn" onclick="window.location.href='/ingredientes'">Regresar</button>
+        
+        <form action="/añadir_categoria" method="POST" style="margin-top: 20px;"> <!-- Añadir un margen superior para separar el formulario del encabezado -->
+            <label for="categoria_ing">Nombre de la Categoría:</label><br>
+            <input type="text" id="categoria_ing" name="categoria_ing" required><br><br>
+            <button class="btn" type="submit">Agregar Categoría</button>
+        </form>
+    </div>
+</body>
+</html>

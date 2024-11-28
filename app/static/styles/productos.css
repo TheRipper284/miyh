@@ -1,0 +1,150 @@
+/* Estilos generales */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background-image: url('../img/fondo.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    color: #ffffff;
+}
+
+h1 {
+    color: #f1eded;
+    font-size: 2.5em;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* Contenedor para la barra de búsqueda y filtros */
+.search-filter-container {
+    display: flex; /* Usar flexbox para alinear elementos */
+    justify-content: center; /* Centrar horizontalmente */
+    align-items: center; /* Centrar verticalmente */
+    margin-bottom: 20px; /* Espacio inferior */
+}
+
+.search-container {
+    display: flex; /* Usar flexbox para alinear la barra de búsqueda y el botón */
+    align-items: center; /* Centrar verticalmente */
+}
+
+#search {
+    width: 150px; /* Ancho de la barra de búsqueda */
+    padding: 10px; /* Espaciado interno */
+    border-radius: 4px; /* Bordes redondeados */
+    border: 1px solid #ccc; /* Borde */
+    margin-right: 10px; /* Espacio a la derecha */
+}
+
+#filtro-icon {
+    padding: 10px; /* Espaciado interno */
+    border-radius: 4px; /* Bordes redondeados */
+    border: none; /* Sin borde */
+    background-color: #4ca095; /* Color de fondo */
+    color: white; /* Color del texto */
+    cursor: pointer; /* Cambiar el cursor al pasar sobre el botón */
+}
+
+#filtro-icon:hover {
+    background-color: #4cb58e; /* Color de fondo al pasar el mouse */
+}
+
+/* Estilos para los campos de selección */
+select {
+    width: 120px; /* Ancho de los campos de selección */
+    padding: 8px; /* Espaciado interno */
+    border-radius: 4px; /* Bordes redondeados */
+    border: 1px solid #ccc; /* Borde */
+    margin-right: 10px; /* Espacio a la derecha */
+}
+
+
+/* Estilos para enlaces */
+a {
+    text-decoration: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+}
+
+
+
+/* Estilos para el stock */
+.agotado {
+    color: gray; /* Color para productos agotados */
+}
+
+.por-agotarse {
+    color: red; /* Color para productos por agotarse */
+}
+
+.bajo-stock {
+    color: yellow; /* Color para productos con bajo stock */
+}
+
+.suficiente-stock {
+    color: green; /* Color para productos con suficiente stock */
+}
+
+/* Estilos para las tarjetas de productos */
+.product-card {
+    width: 200px; /* Ancho de la tarjeta */
+    height: 300px; /* Alto de la tarjeta */
+    perspective: 1000px; /* Perspectiva para el efecto de giro */
+    margin: 20px; /* Espacio entre tarjetas */
+}
+
+.card-inner {
+    
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.6s; /* Transición suave para el giro */
+    transform-style: preserve-3d; /* Mantener el estilo 3D */
+}
+
+.product-card:hover .card-inner {
+    transform: rotateY(180deg); /* Girar la tarjeta al pasar el mouse */
+}
+
+.card-front, .card-back {
+    text-align: center;
+    border-radius: 20px;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden; /* Ocultar la parte trasera cuando no está girada */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden; /* Asegura que la imagen no se desborde */
+}
+
+.card-front {
+    background-color: #ffffff91; /* Fondo de la parte frontal */
+    color: black; /* Color del texto */
+}
+
+.card-back {
+    background-color: #090909a2; /* Fondo de la parte trasera */
+    color: white; /* Color del texto */
+    transform: rotateY(180deg); /* Girar la parte trasera */
+}
+
+/* Nuevo estilo para la imagen */
+.card-front img, .card-back img {
+    max-width: 80%; /* Ajusta el ancho máximo de la imagen */
+    max-height: 80%; /* Ajusta la altura máxima de la imagen */
+    object-fit: cover; /* Mantiene la proporción de la imagen y la centra */
+    margin: auto; /* Centra la imagen horizontalmente */
+    border-radius: 20px;
+}

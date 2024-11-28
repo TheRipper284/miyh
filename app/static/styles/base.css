@@ -1,0 +1,58 @@
+
+nav {
+    background-color: #f7f4f496;
+    padding: 10px;
+}
+
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 10px; 
+    display: flex; 
+    position: relative; 
+}
+
+nav ul li {
+    margin-right: 20px; 
+    position: relative; 
+}
+
+nav ul li a {
+    color: rgb(11, 10, 10); 
+    text-decoration: none;
+    padding: 8px 16px;
+    border-radius: 4px; 
+    transition: background-color 0.3s;
+}
+
+nav ul li a:hover {
+    background-color: #f72828b3; 
+}
+
+
+.submenu {
+    display: none; 
+    position: absolute; 
+    top: 100%; 
+    left: 0; 
+    background-color: #f4f7f9b4; 
+    padding: 10px 0;
+    z-index: 1000; 
+}
+
+nav ul li:hover .submenu {
+    display: block;
+}
+
+.submenu li {
+    margin: 0; 
+}
+
+.submenu li a {
+    padding: 8px 16px; 
+    display: block;
+}
+
+nav ul li.logout {
+    margin-left: auto; /* Empujar el elemento de logout a la derecha */
+}

@@ -1,0 +1,23 @@
+{% extends "base.html" %}  
+{% block content %}  
+    <h1>BIENVENIDO</h1>
+    <div class="container">
+        <h2>OPCIONES</h2>
+        <div class="card" onclick="window.location.href='/productos'">  
+            <h3>IR A PRODUCTOS</h3>
+        </div>
+        <div class="card" onclick="window.location.href='/categorias'">  
+            <h3>IR A CATEGORÍAS</h3>
+        </div>
+        <div class="card" onclick="window.location.href='/agregar'">  
+            <h3>AGREGAR PRODUCTOS</h3>
+        </div>
+        <div class="card" onclick="window.location.href='/ingredientes'">  
+            <h3>IR A INVENTARIO</h3>
+        </div>
+        <div class="card" onclick="window.location.href='/categoria_ing'">  
+            <h3>AGREGAR CATEGORÍAS A INGREDIENTES</h3>
+        </div>
+        
+    </div>
+{% endblock %}

@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventario</title>
+    <link rel="stylesheet" href="static/styles/inventario.css">
+    <link rel="stylesheet" href="static/styles/base.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> <!-- Importar SweetAlert2 -->
+</head>
+<body>
+
+    <header>
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('principal.index') }}">Inicio</a></li>
+                <li>
+                    <a href="#">Productos</a>
+                    <ul class="submenu">
+                        <li><a href="{{ url_for('productos.vista_productos') }}">Lista de Productos</a></li>
+                        <li><a href="{{ url_for('agregar.agregar_producto') }}">Agregar Producto</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#">Categorias</a>
+                    <ul class="submenu">
+                        <li><a href="/categorias">Lista de Categorías</a></li>
+                    </ul>
+                </li>
+                <li class="logout"><a href="#" onclick="confirmLogout(event)">Cerrar Sesión</a></li>
+            </ul>
+        </nav>
+    </header>
+
+
+
+
+    <div class="container">
+        <header>
+            <h1>Inventario</h1>
+            <button class="btn" onclick="window.location.href='/index'">Regresar</button>
+            <button class="btn" id="addInventoryBtn">Agregar</button>
+        </header>
+        
+        <section>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Categoría</th>
+                        <th>Nombre del Ingrediente</th>
+                        <th>Proveedor</th>
+                        <th>Imagen</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in inventario %}
+                    <tr>
+                        <td>{{ item[0] }}</td>
+                        <td>{{ item[1] }}</td>
+                        <td>{{ item[2] }}</td>
+                        <td>{{ item[3] }}</td>
+                        <td>
+                            <img src="{{ item[4] }}" alt="Imagen de {{ item[2] }}" style="width:50px; height:50px;">
+                        </td>
+                        <td>
+                            <!-- Botón para editar -->
+                            <button class="btn btn-edit" onclick="openEditModal('{{ item[0] }}', '{{ item[1] }}', '{{ item[2] }}', '{{ item[3] }}', '{{ item[4] }}')">Editar</button><br><br>
+                            <!-- Botón para eliminar -->
+                            <form action="/eliminar_item/{{ item[0] }}" method="POST" style="display:inline;">
+                                <button type="button" class="btn btn-delete" onclick="confirmarEliminacion(this)">Eliminar</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </section>
+    </div>
+
+    <!-- Modal para agregar ítem al inventario -->
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Agregar Nuevo Ingrediente</h2>
+            <form id="addInventoryForm" action="/añadir_item" method="POST" enctype="multipart/form-data">
+                <input type="hidden" id="itemId" name="itemId" value="{{ itemId }}" required>
+                
+                <label for="categoryId">Categoría:</label><br>
+                <select id="categoryId" name="categoryId" required>
+                    <option value="" disabled selected>Selecciona una categoría</option>
+                    {% for categoria in categorias %}
+                    <option value="{{ categoria[0] }}">{{ categoria[1] }}</option>
+                    {% endfor %}
+                </select><br><br>
+                
+                <button type="button" id="addCategoryBtn" onclick="window.location.href='/categoria_ing'">Agregar nueva categoría</button><br><br>
+                
+                <label for="itemName">Nombre del Ingrediente:</label><br>
+                <input type="text" id="itemName" name="itemName" required><br><br>
+                
+                <label for="supplier">Proveedor:</label><br>
+                <input type="text" id="supplier" name="supplier" required><br><br>
+
+                <label for="image">Imagen:</label><br>
+                <input type="file" id="image" name="image" accept="image/*" required><br><br>
+                
+                <button type="button" id="submitAddBtn">Agregar Ingrediente</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal para editar ítem del inventario -->
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeEditModal()">&times;</span>
+            <h2>Editar Ingrediente</h2>
+            <form id="editInventoryForm" action="" method="POST" enctype="multipart/form-data">
+                <input type="hidden" id="editItemId" name="itemId" required>
+                
+                <label for="editCategoryId">Categoría:</label><br>
+                <select id="editCategoryId" name="categoryId" required>
+                    <option value="" disabled selected>Selecciona una categoría</option>
+                    {% for categoria in categorias %}
+                    <option value="{{ categoria[0] }}">{{ categoria[1] }}</option>
+                    {% endfor %}
+                </select><br><br>
+                
+                <label for="editItemName">Nombre del Ingrediente:</label><br>
+                <input type="text" id="editItemName" name="itemName" required><br><br>
+                
+                <label for="editSupplier">Proveedor:</label><br>
+                <input type="text" id="editSupplier" name="supplier" required><br><br>
+
+                <label for="editImage">Imagen:</label><br>
+                <input type="file" id="editImage" name="image" accept="image/*"><br><br>
+                
+                <button type="button" id="submitEditBtn">Actualizar Ingrediente</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        var modal = document.getElementById("myModal");
+        var editModal = document.getElementById("editModal");
+        var btn = document.getElementById("addInventoryBtn");
+        var span = document.getElementsByClassName("close")[0];
+
+        // Mostrar el modal al hacer clic en el botón "Agregar"
+        btn.onclick = function() {
+            modal.style.display = "block";
+        }
+
+        // Cerrar el modal al hacer clic en el "X"
+        span.onclick = function() {
+            modal.style.display = "none";
+        }
+
+        // Cerrar el modal al hacer clic fuera de él
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+            if (event.target == editModal) {
+                closeEditModal();
+            }
+        }
+
+        function openEditModal(itemId, category, itemName, supplier, image) {
+            document.getElementById("editItemId").value = itemId;
+            document.getElementById("editCategoryId").value = category;
+            document.getElementById("editItemName").value = itemName;
+            document.getElementById("editSupplier").value = supplier;
+            document.getElementById("editInventoryForm").action = "/editar_item/" + itemId;
+            editModal.style.display = "block";
+        }
+
+        function closeEditModal() {
+            editModal.style.display = "none";
+        }
+
+        function confirmarEliminacion(button) {
+            Swal.fire({
+                title: '¿Estás seguro?',
+                text: "No podrás revertir esto",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sí, eliminar',
+                cancelButtonText: 'No, cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    button.closest('form').submit();
+                }
+            });
+        }
+
+        // Agregar evento para el botón de agregar ingrediente
+        document.getElementById("submitAddBtn").addEventListener("click", function() {
+            Swal.fire({
+                title: "¿Estás seguro?",
+                text: "Se agregará un nuevo ingrediente.",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Sí, agregar",
+                cancelButtonText: "Cancelar"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById("addInventoryForm").submit();
+                }
+            });
+        });
+
+        // Agregar evento para el botón de actualizar ingrediente
+        document.getElementById("submitEditBtn").addEventListener("click", function() {
+            Swal.fire({
+                title: "¿Estás seguro?",
+                text: "Se actualizarán los datos del ingrediente.",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Sí, actualizar",
+                cancelButtonText: "Cancelar"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById("editInventoryForm").submit();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

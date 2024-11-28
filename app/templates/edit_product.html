@@ -1,0 +1,61 @@
+{% extends 'base.html' %} <!-- Herencia de plantillas -->
+{% block content %} <!-- Inicio del bloque de contenido -->
+<div class="container">
+    <h1>{{ 'Editar' if product else 'Agregar' }} Producto</h1>
+    <form id="editProductForm" method="POST" enctype="multipart/form-data">
+        <label for="name">Nombre:</label>
+        <input type="text" name="name" value="{{ product['nombre_producto'] if product else '' }}" required><br>
+        
+        <label for="description">Descripción:</label>
+        <textarea name="description">{{ product['descripcion_producto'] if product else '' }}</textarea><br>
+        
+        <label for="price">Precio:</label>
+        <input type="number" name="price" step="0.01" value="{{ product['precio_producto'] if product else '' }}" required><br>
+        
+        <label for="stock">Stock:</label>
+        <input type="number" name="stock" value="{{ product['stock_producto'] if product else '' }}" required><br>
+        
+        <label for="image">Imagen del producto:</label>
+        {% if product and product['producto_img'] %}
+        <img src="{{ url_for('productos.serve_image', filename=product['producto_img']) }}" alt="Imagen del producto" width="100"><br>
+        {% endif %}
+        <input type="file" name="image"><br>
+        
+        <button type="button" id="editButton" class="Guardar">Guardar</button>
+        <a href="{{ url_for('productos.vista_productos') }}" class="btn-cancel">Cancelar</a>
+    </form>
+</div>
+
+<!-- SweetAlert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+    // Obtener referencia al botón "Guardar"
+    document.getElementById("editButton").addEventListener("click", function (e) {
+        // Mostrar alerta SweetAlert2 inicial
+        Swal.fire({
+            title: "¿Estás seguro?",
+            text: "Se actualizarán los datos del producto.",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Sí, actualizar",
+            cancelButtonText: "Cancelar"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Mostrar alerta de confirmación de éxito
+                Swal.fire({
+                    title: "¡Actualizado!",
+                    text: "Los datos del producto se han actualizado correctamente.",
+                    icon: "success",
+                    confirmButtonColor: "#3085d6"
+                }).then(() => {
+                    // Enviar el formulario después de cerrar la alerta de confirmación
+                    document.getElementById("editProductForm").submit();
+                });
+            }
+        });
+    });
+</script>
+{% endblock %} <!-- Fin del bloque de contenido -->
